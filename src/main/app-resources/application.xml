@@ -17,7 +17,7 @@
         <parameter id="tauAero550" title="tauAero550" abstract="Aerosol optical depth (e.g. 0.2)" scope="runtime">0.2</parameter>
         <parameter id="uH2o" title="uH2o" abstract="Relative humidity (e.g. 3.0)" scope="runtime">3.0</parameter>
         <parameter id="uO3" title="uO3" abstract="Ozone content (e.g. 0.15)" scope="runtime">0.15</parameter>
-        <parameter id="useMerisADS" title="useMerisADS" abstract="Use ECMWF data in the MERIS ADS (true or false)" scope="runtime">false</parameter>
+        <parameter id="useMerisADS" title="useMerisADS" abstract="Use ECMWF data in the MERIS ADS (true or false)" scope="runtime">true</parameter>
       </defaultParameters>
       <defaultJobconf>
         <property id="mapred.task.timeout">9900000000000</property>

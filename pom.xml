@@ -4,16 +4,16 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.terradue.ciop.app</groupId>
-	<artifactId>beam-meris-ac</artifactId>
+	<artifactId>participant-a</artifactId>
 	<packaging>rpm</packaging>
-	<name>beam-meris-ac</name>
+	<name>participant-a</name>
 	<description>BEAM Atmospheric Correction Processing</description>
 	<version>0.21-SNAPSHOT</version>
 
 	<scm>
-		<connection>scm:git:git@github.com:ocean-color-ac-challenge/beam-meris-ac.git</connection>
-		<developerConnection>scm:git:git@github.com:ocean-color-ac-challenge/beam-meris-ac.git</developerConnection>
-		<url>https://github.com/ocean-color-ac-challenge/beam-meris-ac</url>
+		<connection>scm:git:git@github.com:ocean-color-ac-challenge/Participant-A.git</connection>
+		<developerConnection>scm:git:git@github.com:ocean-color-ac-challenge/Participant-A.git</developerConnection>
+		<url>https://github.com/ocean-color-ac-challenge/Participant-A</url>
 		<tag>HEAD</tag>
 	</scm>
 
