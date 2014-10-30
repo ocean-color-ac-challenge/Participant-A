@@ -8,7 +8,7 @@
 	<packaging>rpm</packaging>
 	<name>participant-a</name>
 	<description>BEAM Atmospheric Correction Processing</description>
-	<version>0.21-SNAPSHOT</version>
+	<version>0.3</version>
 
 	<scm>
 		<connection>scm:git:git@github.com:ocean-color-ac-challenge/Participant-A.git</connection>
