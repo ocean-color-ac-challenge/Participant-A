@@ -76,7 +76,7 @@ test_jvm() {
   if [ "$ver_major" -lt "1" ]; then
     return;
   elif [ "$ver_major" -eq "1" ]; then
-    if [ "$ver_minor" -lt "6" ]; then
+    if [ "$ver_minor" -lt "7" ]; then
       return;
     fi
   fi
@@ -131,7 +131,7 @@ fi
 
 if [ -z "$app_java_home" ]; then
   echo No suitable Java Virtual Machine could be found on your system.
-  echo The version of the JVM must be at least 1.6.
+  echo The version of the JVM must be at least 1.7.
   echo Please define INSTALL4J_JAVA_HOME to point to a suitable JVM.
   echo You can also try to delete the JVM cache file $HOME/.install4j
 exit 83

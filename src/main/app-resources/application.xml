@@ -7,8 +7,8 @@
       <streamingExecutable>/application/smacop/run.sh</streamingExecutable>
       <defaultParameters>						
         <parameter id="format">BEAM-DIMAP</parameter>
-	<parameter id="startdate" title="Start date" abstract="Start date of the TOI. Used as queryable for the MERIS Level 1 catalogue" scope="runtime" type="opensearch" target="time:start">2012-04-05</parameter>
-        <parameter id="enddate" title="End date" abstract="End date of the TOI. Used as queryable for the MERIS Level 1 catalogue" scope="runtime" type="opensearch" target="time:end">2012-04-06</parameter>
+	<parameter id="startdate" title="Start date" abstract="Start date of the TOI. Used as queryable for the MERIS Level 1 catalogue" scope="runtime" type="opensearch" target="time:start">2002-04-05</parameter>
+        <parameter id="enddate" title="End date" abstract="End date of the TOI. Used as queryable for the MERIS Level 1 catalogue" scope="runtime" type="opensearch" target="time:end">2005-01-06</parameter>
         <parameter id="aerosolType" title="aerosolType" abstract="Aerosol type: CONTINENTAL or DESERT" scope="runtime">CONTINENTAL</parameter>
         <parameter id="bandNames" title="bandNames" abstract="Bands to process as a comma separated list (e.g. radiance_2,radiance_3)" scope="runtime">radiance_2,radiance_3</parameter>
         <parameter id="invalidPixel" title="invalidPixel" abstract="Default reflectance for invalid pixel (e.g. 0.0)" scope="runtime">0.0</parameter> 
@@ -29,7 +29,7 @@
     <node id="node_smacop">				
       <job id="SmacOp"></job>			
       <sources>
-        <source refid="cas:series">http://catalogue.terradue.int/catalogue/search/MER_RR__1P/description</source>
+        <source refid="cas:series">https://challenges.esa.int/eceo/datapackage/RRPAR/search?key=9d79148d-3e17-414b-9983-e4cef9e88ec6&amp;format=rdf</source>
       </sources>
       <parameters/>					
     </node>

@@ -8,6 +8,7 @@ SUCCESS=0
 ERR_NOINPUT=1
 ERR_BEAM=2
 ERR_NOPARAMS=5
+ERR_JAVAVERSION=10
 
 # add a trap to exit gracefully
 function cleanExit ()
@@ -18,12 +19,17 @@ function cleanExit ()
      $SUCCESS)      msg="Processing successfully concluded";;
      $ERR_NOPARAMS) msg="Expression not defined";;
      $ERR_BEAM)    msg="Beam failed to process product $product (Java returned $res).";;
+     $ERR_JAVAVERSION)	msg="The version of the JVM must be at least 1.7";;
      *)             msg="Unknown error";;
    esac
    [ "$retval" != "0" ] && ciop-log "ERROR" "Error $retval - $msg, processing aborted" || ciop-log "INFO" "$msg"
    exit $retval
 }
 trap cleanExit EXIT
+
+ciop-log "INFO" "Checking Java version"
+$_CIOP_APPLICATION_PATH/shared/bin/detect_java.sh
+[ "$?" == "0" ] || exit $ERR_JAVAVERSION
 
 # create the output folder to store the output products
 mkdir -p $TMPDIR/output
