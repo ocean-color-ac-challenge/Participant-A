@@ -12,7 +12,7 @@
         <parameter id="aerosolType" title="aerosolType" abstract="Aerosol type: CONTINENTAL or DESERT" scope="runtime">CONTINENTAL</parameter>
         <parameter id="bandNames" title="bandNames" abstract="Bands to process as a comma separated list (e.g. radiance_2,radiance_3)" scope="runtime">radiance_2,radiance_3</parameter>
         <parameter id="invalidPixel" title="invalidPixel" abstract="Default reflectance for invalid pixel (e.g. 0.0)" scope="runtime">0.0</parameter> 
-        <parameter id="maskExpression" title="maskExpression" abstract="Mask expression for the whole MERIS view" scope="runtime"></parameter>
+        <parameter id="maskExpression" title="maskExpression" abstract="Mask expression for the whole MERIS view" scope="runtime">not l1_flags.LAND_OCEAN</parameter>
         <parameter id="surfPress" title="surfPress" abstract="Surface pressure (e.g. 1013.0)" scope="runtime">1013.0</parameter>
         <parameter id="tauAero550" title="tauAero550" abstract="Aerosol optical depth (e.g. 0.2)" scope="runtime">0.2</parameter>
         <parameter id="uH2o" title="uH2o" abstract="Relative humidity (e.g. 3.0)" scope="runtime">3.0</parameter>
