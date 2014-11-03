@@ -10,11 +10,11 @@
 	<parameter id="startdate" title="Start date" abstract="Start date of the TOI. Used as queryable for the MERIS Level 1 catalogue" scope="runtime" type="opensearch" target="time:start">2002-04-05</parameter>
         <parameter id="enddate" title="End date" abstract="End date of the TOI. Used as queryable for the MERIS Level 1 catalogue" scope="runtime" type="opensearch" target="time:end">2005-01-06</parameter>
         <parameter id="aerosolType" title="aerosolType" abstract="Aerosol type: CONTINENTAL or DESERT" scope="runtime">CONTINENTAL</parameter>
-        <parameter id="bandNames" title="bandNames" abstract="Bands to process as a comma separated list (e.g. radiance_2,radiance_3)" scope="runtime">radiance_2,radiance_3</parameter>
+        <parameter id="bandNames" title="bandNames" abstract="Bands to process as a comma separated list (e.g. radiance_2,radiance_3)" scope="runtime">radiance_1,radiance_2,radiance_3,radiance_4,radiance_5,radiance_6,radiance_7</parameter>
         <parameter id="invalidPixel" title="invalidPixel" abstract="Default reflectance for invalid pixel (e.g. 0.0)" scope="runtime">0.0</parameter> 
         <parameter id="maskExpression" title="maskExpression" abstract="Mask expression for the whole MERIS view" scope="runtime">not l1_flags.LAND_OCEAN</parameter>
         <parameter id="surfPress" title="surfPress" abstract="Surface pressure (e.g. 1013.0)" scope="runtime">1013.0</parameter>
-        <parameter id="tauAero550" title="tauAero550" abstract="Aerosol optical depth (e.g. 0.2)" scope="runtime">0.2</parameter>
+        <parameter id="tauAero550" title="tauAero550" abstract="Aerosol optical depth (e.g. 0.2)" scope="runtime">0.1</parameter>
         <parameter id="uH2o" title="uH2o" abstract="Relative humidity (e.g. 3.0)" scope="runtime">3.0</parameter>
         <parameter id="uO3" title="uO3" abstract="Ozone content (e.g. 0.15)" scope="runtime">0.15</parameter>
         <parameter id="useMerisADS" title="useMerisADS" abstract="Use ECMWF data in the MERIS ADS (true or false)" scope="runtime">true</parameter>
