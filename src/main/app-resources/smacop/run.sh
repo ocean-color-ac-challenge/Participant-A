@@ -56,7 +56,7 @@ do
   ciop-log "INFO" "Retrieving $inputfile from storage"
   
   # retrieve the remote geotiff product to the local temporary folder
-  retrieved=`ciop-copy -o $TMPDIR $inputfile`
+  retrieved="`opensearch-client "$inputfile" enclosure | ciop-copy -o $TMPDIR -`"
   
   # check if the file was retrieved
   [ "$?" == "0" -a -e "$retrieved" ] || exit $ERR_NOINPUT
