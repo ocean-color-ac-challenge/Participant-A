@@ -29,7 +29,7 @@
     <node id="node_smacop">				
       <job id="SmacOp"></job>			
       <sources>
-        <source id="source" abstract="hello" title="Source" scope="test" refid="cas:series">https://challenges.esa.int/eceo/datapackage/RRPAR/search?key=9d79148d-3e17-414b-9983-e4cef9e88ec6&amp;format=rdf</source>
+        <source id="source" abstract="hello" title="Source" scope="runtime" refid="cas:series">https://challenges.esa.int/eceo/datapackage/FRSPAR/description?key=495f181f-47d3-4668-b717-d36d4a560837</source>
       </sources>
       <parameters/>					
     </node>
