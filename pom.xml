@@ -4,16 +4,16 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.terradue.ciop.app</groupId>
-	<artifactId>participant-a</artifactId>
+	<artifactId>Participant-A</artifactId>
 	<packaging>rpm</packaging>
-	<name>participant-a</name>
+	<name>${project.artifactId}</name>
 	<description>BEAM Atmospheric Correction Processing</description>
-	<version>0.32</version>
+	<version>0.33</version>
 
 	<scm>
-		<connection>scm:git:git@github.com:ocean-color-ac-challenge/Participant-A.git</connection>
-		<developerConnection>scm:git:git@github.com:ocean-color-ac-challenge/Participant-A.git</developerConnection>
-		<url>https://github.com/ocean-color-ac-challenge/Participant-A</url>
+		<connection>scm:git:git@github.com:ocean-color-ac-challenge/${project.artifactId}.git</connection>
+		<developerConnection>scm:git:git@github.com:ocean-color-ac-challenge/${project.artifactId}.git</developerConnection>
+		<url>https://github.com/ocean-color-ac-challenge/${project.artifactId}</url>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -249,8 +249,8 @@
 					<distribution>Terradue ${project.inceptionYear}</distribution>
 					<group>air</group>
 					<packager>Terradue</packager>
-					<summary>ESA BEAM Toolbox atmospheric correction</summary>
-					<description></description>
+					<summary>${project.artifactId}</summary>
+					<description>${project.artifactId}</description>
 					<name>${project.artifactId}</name>
 					<defaultDirmode>775</defaultDirmode>
 					<defaultFilemode>664</defaultFilemode>
