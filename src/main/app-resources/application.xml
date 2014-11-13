@@ -24,7 +24,7 @@
       </defaultJobconf>
     </jobTemplate>
 </jobTemplates>	
- <workflow id="beam_atcorr" title="BEAM Atmos Correction" abstract="This example runs the SmacOp atmospheric correction">						
+ <workflow id="participant-a" title="Participant A" abstract="Participant A uses the BEAM SmacOp atmospheric correction with ECMWF data">						
     <workflowVersion>1.0</workflowVersion>
     <node id="node_smacop">				
       <job id="SmacOp"></job>			
