@@ -37,7 +37,7 @@
                         <groupId>org.esa.beam</groupId>
                         <artifactId>beam-binning</artifactId>
                         <version>5.0</version>
-                </dependency>	
+                </dependency>
 		<dependency>
                         <groupId>org.esa.beam</groupId>
                         <artifactId>beam-pconvert</artifactId>
@@ -120,7 +120,10 @@
 			</extension>
 		</extensions>
 		<plugins>
-			
+
+
+
+
 
 
 <plugin>
@@ -139,17 +142,15 @@ def env = System.getenv()
 def writer = new FileWriter(new File("/application/properties.xml"))
 def xml = new MarkupBuilder(writer)
 xml.mkp.xmlDeclaration(version: "1.0", encoding: "utf-8")
-xml.properties() { 
+xml.properties() {
 	application_reference(version:pom.version, pom.artifactId)
 	user_reference(env['USER'])
-} 
+}
 		</source>
             </configuration>
         </execution>
     </executions>
 </plugin>
-
-
 
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
@@ -386,7 +387,7 @@ xml.properties() {
 						<configuration>
 							<releaseName>v${project.version}</releaseName>
 							<tag>v${project.version}</tag>
-							<artifact>${project.build.directory}/rpm/${project.artifactId}/RPMS/noarch/${project.artifactId}-${parsedVersion.majorVersion}.${parsedVersion.minorVersion}-ciop.noarch.rpm</artifact>	
+							<artifact>${project.build.directory}/rpm/${project.artifactId}/RPMS/noarch/${project.artifactId}-${parsedVersion.majorVersion}.${parsedVersion.minorVersion}-ciop.noarch.rpm</artifact>
 							<overwriteArtifact>true</overwriteArtifact>
 						</configuration>
 					</execution>
@@ -397,4 +398,3 @@ xml.properties() {
 	</build>
 
 </project>
-
