@@ -1,37 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application id="beam_atcorr">
   <jobTemplates>
-  
     <!-- BEAM Atmos Corr operator job template  -->
     <jobTemplate id="SmacOp">
       <streamingExecutable>/application/smacop/run.sh</streamingExecutable>
-      <defaultParameters>						
+      <defaultParameters>
         <parameter id="format">BEAM-DIMAP</parameter>
-	<parameter id="startdate" title="Start date" abstract="Start date of the TOI. Used as queryable for the MERIS Level 1 catalogue" scope="runtime" type="opensearch" target="time:start">2002-04-05</parameter>
+        <parameter id="startdate" title="Start date" abstract="Start date of the TOI. Used as queryable for the MERIS Level 1 catalogue" scope="runtime" type="opensearch" target="time:start">2002-04-05</parameter>
         <parameter id="enddate" title="End date" abstract="End date of the TOI. Used as queryable for the MERIS Level 1 catalogue" scope="runtime" type="opensearch" target="time:end">2005-01-06</parameter>
         <parameter id="aerosolType" title="aerosolType" abstract="Aerosol type: CONTINENTAL or DESERT" scope="runtime">CONTINENTAL</parameter>
         <parameter id="bandNames" title="bandNames" abstract="Bands to process as a comma separated list (e.g. radiance_2,radiance_3)" scope="test">radiance_1,radiance_2,radiance_3,radiance_4,radiance_5,radiance_6,radiance_7</parameter>
-        <parameter id="invalidPixel" title="invalidPixel" abstract="Default reflectance for invalid pixel (e.g. 0.0)" scope="test">0.0</parameter> 
+        <parameter id="invalidPixel" title="invalidPixel" abstract="Default reflectance for invalid pixel (e.g. 0.0)" scope="test">0.0</parameter>
         <parameter id="maskExpression" title="maskExpression" abstract="Mask expression for the whole MERIS view" scope="test">not l1_flags.LAND_OCEAN</parameter>
         <parameter id="surfPress" title="surfPress" abstract="Surface pressure (e.g. 1013.0)" scope="test">1013.0</parameter>
         <parameter id="tauAero550" title="tauAero550" abstract="Aerosol optical depth (e.g. 0.2)" scope="runtime">0.1</parameter>
         <parameter id="uH2o" title="uH2o" abstract="Relative humidity (e.g. 3.0)" scope="test">3.0</parameter>
         <parameter id="uO3" title="uO3" abstract="Ozone content (e.g. 0.15)" scope="test">0.15</parameter>
         <parameter id="useMerisADS" title="useMerisADS" abstract="Use ECMWF data in the MERIS ADS (true or false)" scope="runtime">true</parameter>
+        <parameter id="poi" title="List of POI" abstract="List of POIS (Name, Latitude, Longitude) tab separated values" scope="runtime">Name,Latitude,Longitude
+        BOUS,43.367,7.9
+        AAOT,45.314,12.508
+        MOBY,20.828,-157.193
+        TEST,55.78,19.20</parameter>
+        <parameter id="window" title="Window size" abstract="The window size specifies the number of pixels surrounding the pixels derived from the given geographic coordinates to be exported">3</parameter>
+        <parameter id="aggregation" title="Pixel value aggregation method" abstract="The aggregation methods that may be used are: min, exports the minimum of the window values; max, exports the maximum of the window values; mean, exports mean and standard deviation of the window values or median, exports the median of the window values"/>
       </defaultParameters>
       <defaultJobconf>
         <property id="mapred.task.timeout">9900000000000</property>
       </defaultJobconf>
     </jobTemplate>
-</jobTemplates>	
- <workflow id="participant-a" title="Participant A" abstract="Participant A uses the BEAM SmacOp atmospheric correction with ECMWF data">						
+  </jobTemplates>
+  <workflow id="participant-a" title="Participant A" abstract="Participant A uses the BEAM SmacOp atmospheric correction with ECMWF data">
     <workflowVersion>1.0</workflowVersion>
-    <node id="node_smacop">				
-      <job id="SmacOp"></job>			
+    <node id="node_smacop">
+      <job id="SmacOp"/>
       <sources>
-        <source id="source" abstract="hello" title="Source" scope="runtime" refid="cas:series">https://challenges.esa.int/eceo/datapackage/FRSPAR/description?key=495f181f-47d3-4668-b717-d36d4a560837</source>
+        <source id="source" abstract="hello" title="Source" scope="runtime" refid="cas:series">https://challenges.esa.int/eceo/datapackage/CONTEST3_DEV/description?key=9622f9be-8a27-4bda-818e-65fabac3f6cb</source>
       </sources>
-      <parameters/>					
+      <parameters/>
     </node>
   </workflow>
 </application>
