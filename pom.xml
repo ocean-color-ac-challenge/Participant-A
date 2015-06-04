@@ -124,6 +124,8 @@
 
 
 
+
+
 <plugin>
     <groupId>org.codehaus.gmaven</groupId>
     <artifactId>gmaven-plugin</artifactId>
@@ -135,9 +137,6 @@
             </goals>
             <configuration>
                 <source>
-
-
-
 import groovy.xml.MarkupBuilder
 def env = System.getenv()
 def writer = new FileWriter(new File("/application/properties.xml"))
@@ -153,8 +152,7 @@ xml.properties() {
     </executions>
 </plugin>
 
-
-		<plugin>
+			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>2.5</version>
 				<configuration>
