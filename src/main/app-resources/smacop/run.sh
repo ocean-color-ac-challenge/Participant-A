@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+
 # source the ciop functions (e.g. ciop-log)
 source ${ciop_job_include}
 
@@ -48,24 +48,34 @@ uH2o="`ciop-getparam uH2o`"
 uO3="`ciop-getparam uO3`"
 useMerisADS="`ciop-getparam useMerisADS`"
 
-#
+# Evaluation parameters
 # get the POIs
 echo "`ciop-getparam poi | tr "," "\t"`" > $TMPDIR/poi.csv
-
 # get the window size
 window="`ciop-getparam window`"
 # get the aggregation
 aggregation="`ciop-getparam aggregation`"
 
+# set the processing flags
+evaluate="$( ciop-getparam evaluate )"
+publish_l2="$( ciop-getparam publishL2)"
+
+prd_counter=1
 
 # loop and process all MERIS products
 while read inputfile 
 do
   # report activity in log
-  ciop-log "INFO" "Retrieving $inputfile from storage"
+  ciop-log "INFO" "Retrieving input ${prd_counter} - $inputfile from storage"
   
+  prd_ref="$( opensearch-client "$inputfile" enclosure )"
+  [ -z "${prd_ref}" ] && { 
+    ciop-log "ERR" "Could not resolve ${inputfile}"
+    next
+  }
+
   # retrieve the remote geotiff product to the local temporary folder
-  retrieved="`opensearch-client "$inputfile" enclosure | ciop-copy -o $TMPDIR -`"
+  retrieved="$( echo ${prd_ref} | ciop-copy -o $TMPDIR - )"
   
   # check if the file was retrieved
   [ "$?" == "0" -a -e "$retrieved" ] || exit $ERR_NOINPUT
@@ -73,7 +83,7 @@ do
   # report activity
   ciop-log "INFO" "Retrieved `basename $retrieved`, moving on to smac operator"
 	
-outputname=`basename $retrieved`
+  outputname=`basename $retrieved`
   
   $_CIOP_APPLICATION_PATH/shared/bin/gpt.sh SmacOp \
     -SsourceProduct=$retrieved \
@@ -92,9 +102,6 @@ outputname=`basename $retrieved`
   res=$?
   [ $res != 0 ] && exit $ERR_BEAM
 
-  evaluate="true"
-  publish_l2="true"
- 
   run=${CIOP_WF_RUN_ID}
  
   [ "${evaluate}" == "true" ] && {
@@ -117,23 +124,25 @@ outputname=`basename $retrieved`
     res=$?
     [ $res != 0 ] && exit $ERR_BEAM_PIXEX 
  
-    ciop-log "DEBUG" "`tree $OUTPUTDIR`" 
-    ciop-log "DEBUG" "`tree $TMPDIR`"
     result="`find $OUTPUTDIR -name "$run*measurements.txt"`"
     cat "$result" |  tail -n +7 | tr "\t" "," | awk -f $_CIOP_APPLICATION_PATH/pixex/libexec/tidy.awk -v run=$run -v date=$prddate - > $TMPDIR/csv
     mv $TMPDIR/csv "$OUTPUTDIR/$l2b.txt" 
   
     ciop-log "INFO" "Publishing extracted pixel values"
     ciop-publish -m "$OUTPUTDIR/$l2b.txt"
+    rm -f "$OUTPUTDIR/$l2b.txt"
   }
 
   [ "${publish_l2}" == "true" ] && {
     tar -C $OUTPUTDIR -cvzf $TMPDIR/$outputname.tgz $outputname.dim $outputname.data
     ciop-log "INFO" "Publishing $outputname.tgz"
     ciop-publish -m $TMPDIR/$outputname.tgz
+    rm -fr $OUTPUTDIR/$outputname.tgz
   }
   # cleanup
-  rm -fr $retrieved $OUTPUTDIR/$outputname.d* $TMPDIR/$outputname.tgz 
+  rm -fr $retrieved $OUTPUTDIR/$outputname.d* 
+ 
+  prd_counter=$(( $prd_counter + 1 )) 
 
 done
 
