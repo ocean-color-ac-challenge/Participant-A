@@ -33,12 +33,12 @@
     <timeDifference/>
     <coordinatesFile>$coordinates</coordinatesFile>
     <matchupFile/>
-    <windowSize>3</windowSize>
+    <windowSize>$windowSize</windowSize>
     <outputDir>$output_path</outputDir>
     <outputFilePrefix>$prefix</outputFilePrefix>
-    <expression/>
-    <exportExpressionResult>true</exportExpressionResult>
-    <aggregatorStrategyType>mean</aggregatorStrategyType>
+    <expression>not l1_flags.LAND_OCEAN</expression>
+    <exportExpressionResult>false</exportExpressionResult>
+    <aggregatorStrategyType>$aggregatorStrategyType</aggregatorStrategyType>
     <exportSubScenes>false</exportSubScenes>
     <subSceneBorderSize>0</subSceneBorderSize>
     <exportKmz>false</exportKmz>

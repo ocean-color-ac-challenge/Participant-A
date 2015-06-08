@@ -52,7 +52,7 @@ useMerisADS="`ciop-getparam useMerisADS`"
 # get the POIs
 echo "`ciop-getparam poi | tr "," "\t"`" > $TMPDIR/poi.csv
 # get the window size
-window="`ciop-getparam window`"
+window=`ciop-getparam window`
 # get the aggregation
 aggregation="`ciop-getparam aggregation`"
 
@@ -109,7 +109,8 @@ do
     l2b="$( basename $OUTPUTDIR/$outputname )"
     prddate="${l2b:20:2}/${l2b:18:2}/${l2b:14:4}"
     ciop-log "INFO" "Apply BEAM PixEx Operator to ${l2b}"
-  
+    prd_orbit=$( echo ${l2b:49:5} | sed 's/^0*//' ) 
+
     # apply PixEx BEAM operator
     $_CIOP_APPLICATION_PATH/shared/bin/gpt.sh \
   	-Pvariable=$outputname.dim \
@@ -125,7 +126,10 @@ do
     [ $res != 0 ] && exit $ERR_BEAM_PIXEX 
  
     result="`find $OUTPUTDIR -name "$run*measurements.txt"`"
-    cat "$result" |  tail -n +7 | tr "\t" "," | awk -f $_CIOP_APPLICATION_PATH/pixex/libexec/tidy.awk -v run=$run -v date=$prddate - > $TMPDIR/csv
+     
+    skip_lines=$( cat ${result} | grep -n "ProdID" | cut -d ":" -f 1 )
+
+    cat "$result" |  tail -n +${skip_lines} | tr "\t" "," | awk -f $_CIOP_APPLICATION_PATH/pixex/libexec/tidy.awk -v run=$run -v date=$prddate -v orbit=${prd_orbit} - > $TMPDIR/csv
     mv $TMPDIR/csv "$OUTPUTDIR/$l2b.txt" 
   
     ciop-log "INFO" "Publishing extracted pixel values"
