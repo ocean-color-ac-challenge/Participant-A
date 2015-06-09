@@ -15,46 +15,45 @@ function cleanExit ()
 {
    local retval=$?
    local msg=""
-   case "$retval" in
-     $SUCCESS)      msg="Processing successfully concluded";;
-     $ERR_NOPARAMS) msg="Expression not defined";;
-     $ERR_BEAM)    msg="Beam failed to process product $product (Java returned $res).";;
-     $ERR_JAVAVERSION)	msg="The version of the JVM must be at least 1.7";;
+   case "${retval}" in
+     ${SUCCESS})      msg="Processing successfully concluded";;
+     ${ERR_NOPARAMS}) msg="Expression not defined";;
+     ${ERR_BEAM})    msg="Beam failed to process product $product (Java returned $res).";;
+     ${ERR_JAVAVERSION})	msg="The version of the JVM must be at least 1.7";;
      *)             msg="Unknown error";;
    esac
-   [ "$retval" != "0" ] && ciop-log "ERROR" "Error $retval - $msg, processing aborted" || ciop-log "INFO" "$msg"
-   exit $retval
+   [ "${retval}" != "0" ] && ciop-log "ERROR" "Error ${retval} - ${msg}, processing aborted" || ciop-log "INFO" "${msg}"
+   exit ${retval}
 }
 trap cleanExit EXIT
 
 ciop-log "INFO" "Checking Java version"
-$_CIOP_APPLICATION_PATH/shared/bin/detect_java.sh
-[ "$?" == "0" ] || exit $ERR_JAVAVERSION
+${_CIOP_APPLICATION_PATH}/shared/bin/detect_java.sh || exit ${ERR_JAVAVERSION}
 
 # create the output folder to store the output products
-mkdir -p $TMPDIR/output
-export OUTPUTDIR=$TMPDIR/output
-format="`ciop-getparam format`"
+mkdir -p ${TMPDIR}/output
+export OUTPUTDIR=${TMPDIR}/output
+format="$( ciop-getparam format )"
 
-[ "$format" != "BEAM-DIMAP" ] && [ "$format" != "GeoTIFF" ] && exit $ERR_FORMAT
+[ "${format}" != "BEAM-DIMAP" ] && [ "${format}" != "GeoTIFF" ] && exit ${ERR_FORMAT}
 
-aerosolType="`ciop-getparam aerosolType`"
-bandNames="`ciop-getparam bandNames`"
-invalidPixel="`ciop-getparam invalidPixel`"
-maskExpression="`ciop-getparam maskExpression`"
-surfPress="`ciop-getparam surfPress`"
-tauAero550="`ciop-getparam tauAero550`"
-uH2o="`ciop-getparam uH2o`"
-uO3="`ciop-getparam uO3`"
-useMerisADS="`ciop-getparam useMerisADS`"
+aerosolType="$( ciop-getparam aerosolType )"
+bandNames="$( ciop-getparam bandNames )"
+invalidPixel="$( ciop-getparam invalidPixel )"
+maskExpression="$( ciop-getparam maskExpression )"
+surfPress="$( ciop-getparam surfPress )"
+tauAero550="$( ciop-getparam tauAero550 )"
+uH2o="$( ciop-getparam uH2o )"
+uO3="$( ciop-getparam uO3 )"
+useMerisADS="`ciop-getparam useMerisADS )"
 
 # Evaluation parameters
 # get the POIs
-echo "`ciop-getparam poi | tr "," "\t"`" > $TMPDIR/poi.csv
+echo "$( ciop-getparam poi | tr "," "\t" )" > $TMPDIR/poi.csv
 # get the window size
-window=`ciop-getparam window`
+window="$( ciop-getparam window )"
 # get the aggregation
-aggregation="`ciop-getparam aggregation`"
+aggregation="$( ciop-getparam aggregation )"
 
 # set the processing flags
 evaluate="$( ciop-getparam evaluate )"
@@ -66,87 +65,86 @@ prd_counter=1
 while read inputfile 
 do
   # report activity in log
-  ciop-log "INFO" "Retrieving input ${prd_counter} - $inputfile from storage"
+  ciop-log "INFO" "Retrieving input ${prd_counter} - ${inputfile} from storage"
   
-  prd_ref="$( opensearch-client "$inputfile" enclosure )"
+  prd_ref="$( opensearch-client "${inputfile}" enclosure )"
   [ -z "${prd_ref}" ] && { 
     ciop-log "ERR" "Could not resolve ${inputfile}"
     next
   }
 
-  # retrieve the remote geotiff product to the local temporary folder
+  # retrieve the MERIS product product to the local temporary folder
   retrieved="$( echo ${prd_ref} | ciop-copy -o $TMPDIR - )"
   
   # check if the file was retrieved
-  [ "$?" == "0" -a -e "$retrieved" ] || exit $ERR_NOINPUT
+  [ "$?" == "0" -a -e "${retrieved}" ] || exit ${ERR_NOINPUT}
   
   # report activity
-  ciop-log "INFO" "Retrieved `basename $retrieved`, moving on to smac operator"
+  ciop-log "INFO" "Retrieved $( basename ${retrieved} ), moving on to smac operator"
 	
-  outputname=`basename $retrieved`
+  outputname="$( basename ${retrieved} )"
   
-  $_CIOP_APPLICATION_PATH/shared/bin/gpt.sh SmacOp \
-    -SsourceProduct=$retrieved \
-    -f $format \
-    -t $OUTPUTDIR/$outputname \
-    -PaerosolType=$aerosolType \
-    -PbandNames="$bandNames" \
-    -PinvalidPixel=$invalidPixel \
-    -PmaskExpression="$maskExpression" \
-    -PsurfPress=$surfPress \
-    -PtauAero550=$tauAero550 \
-    -PuH2o=$uH2o \
-    -PuO3=$uO3 \
-    -PuseMerisADS=$useMerisADS 
+  ${_CIOP_APPLICATION_PATH}/shared/bin/gpt.sh SmacOp \
+    -SsourceProduct=${retrieved} \
+    -f ${format} \
+    -t $OUTPUTDIR}/${outputname} \
+    -PaerosolType=${aerosolType} \
+    -PbandNames="${bandNames}" \
+    -PinvalidPixel=${invalidPixel} \
+    -PmaskExpression="${maskExpression}" \
+    -PsurfPress=${surfPress} \
+    -PtauAero550=${tauAero550} \
+    -PuH2o=${uH2o} \
+    -PuO3=${uO3} \
+    -PuseMerisADS=${useMerisADS} 
   
   res=$?
-  [ $res != 0 ] && exit $ERR_BEAM
+  [ ${res} != 0 ] && exit ${ERR_BEAM}
 
   run=${CIOP_WF_RUN_ID}
  
   [ "${evaluate}" == "true" ] && {
     # invoke pixex
-    l2b="$( basename $OUTPUTDIR/$outputname )"
+    l2b="$( basename ${OUTPUTDIR}/${outputname} )"
     prddate="${l2b:20:2}/${l2b:18:2}/${l2b:14:4}"
     ciop-log "INFO" "Apply BEAM PixEx Operator to ${l2b}"
     prd_orbit=$( echo ${l2b:49:5} | sed 's/^0*//' ) 
 
     # apply PixEx BEAM operator
-    $_CIOP_APPLICATION_PATH/shared/bin/gpt.sh \
-  	-Pvariable=$outputname.dim \
-  	-Pvariable_path=$OUTPUTDIR \
-  	-Poutput_path=$OUTPUTDIR \
-        -Pprefix=$run \
-  	-Pcoordinates=$TMPDIR/poi.csv \
-	-PwindowSize=$window \
-	-PaggregatorStrategyType="$aggregation" \
-	${_CIOP_APPLICATION_PATH}/pixex/libexec/PixEx.xml &> /tmp/`uuidgen`.log #dev/null		
+    ${_CIOP_APPLICATION_PATH}/shared/bin/gpt.sh \
+  	-Pvariable=${outputname}.dim \
+  	-Pvariable_path=${OUTPUTDIR} \
+  	-Poutput_path=${OUTPUTDIR} \
+        -Pprefix=${run} \
+  	-Pcoordinates=${TMPDIR}/poi.csv \
+	-PwindowSize=${window} \
+	-PaggregatorStrategyType="${aggregation}" \
+	${_CIOP_APPLICATION_PATH}/pixex/libexec/PixEx.xml 1>&2 		
   	
     res=$?
-    [ $res != 0 ] && exit $ERR_BEAM_PIXEX 
+    [ ${res} != 0 ] && exit ${ERR_BEAM_PIXEX} 
  
-    result="`find $OUTPUTDIR -name "$run*measurements.txt"`"
+    result="$( find ${OUTPUTDIR} -name "${run}*measurements.txt" )"
      
     skip_lines=$( cat ${result} | grep -n "ProdID" | cut -d ":" -f 1 )
 
-    cat "$result" |  tail -n +${skip_lines} | tr "\t" "," | awk -f $_CIOP_APPLICATION_PATH/pixex/libexec/tidy.awk -v run=$run -v date=$prddate -v orbit=${prd_orbit} - > $TMPDIR/csv
-    mv $TMPDIR/csv "$OUTPUTDIR/$l2b.txt" 
-  
+    cat "${result}" |  tail -n +${skip_lines} | tr "\t" "," | awk -f ${_CIOP_APPLICATION_PATH}/pixex/libexec/tidy.awk -v run=${run} -v date=${prddate} -v orbit=${prd_orbit} - > ${TMPDIR}/"${OUTPUTDIR}/${l2b}.txt"
+
     ciop-log "INFO" "Publishing extracted pixel values"
-    ciop-publish -m "$OUTPUTDIR/$l2b.txt"
-    rm -f "$OUTPUTDIR/$l2b.txt"
+    ciop-publish -m "${OUTPUTDIR}/${l2b}.txt"
+    rm -f "${OUTPUTDIR}/${l2b}.txt"
   }
 
   [ "${publish_l2}" == "true" ] && {
-    tar -C $OUTPUTDIR -cvzf $TMPDIR/$outputname.tgz $outputname.dim $outputname.data
+    tar -C ${OUTPUTDIR} -cvzf ${TMPDIR}/${outputname}.tgz ${outputname}.dim ${outputname}.data
     ciop-log "INFO" "Publishing $outputname.tgz"
-    ciop-publish -m $TMPDIR/$outputname.tgz
-    rm -fr $OUTPUTDIR/$outputname.tgz
+    ciop-publish -m ${TMPDIR}/${outputname}.tgz
+    rm -fr ${OUTPUTDIR}/${outputname}.tgz
   }
   # cleanup
-  rm -fr $retrieved $OUTPUTDIR/$outputname.d* 
+  rm -fr ${retrieved} ${OUTPUTDIR}/${outputname}.d* 
  
-  prd_counter=$(( $prd_counter + 1 )) 
+  prd_counter=$(( ${prd_counter} + 1 )) 
 
 done
 
