@@ -45,7 +45,7 @@ surfPress="$( ciop-getparam surfPress )"
 tauAero550="$( ciop-getparam tauAero550 )"
 uH2o="$( ciop-getparam uH2o )"
 uO3="$( ciop-getparam uO3 )"
-useMerisADS="`ciop-getparam useMerisADS )"
+useMerisADS="$( ciop-getparam useMerisADS )"
 
 # Evaluation parameters
 # get the POIs
@@ -57,7 +57,7 @@ aggregation="$( ciop-getparam aggregation )"
 
 # set the processing flags
 evaluate="$( ciop-getparam evaluate )"
-publish_l2="$( ciop-getparam publishL2)"
+publish_l2="$( ciop-getparam publishL2 )"
 
 prd_counter=1
 
