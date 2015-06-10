@@ -70,82 +70,81 @@ do
   prd_ref="$( opensearch-client "${inputfile}" enclosure )"
   [ -z "${prd_ref}" ] && { 
     ciop-log "ERR" "Could not resolve ${inputfile}"
-    next
-  }
+  } || {
 
-  # retrieve the MERIS product product to the local temporary folder
-  retrieved="$( echo ${prd_ref} | ciop-copy -o $TMPDIR - )"
+    # retrieve the MERIS product product to the local temporary folder
+    retrieved="$( echo ${prd_ref} | ciop-copy -o $TMPDIR - )"
   
-  # check if the file was retrieved
-  [ "$?" == "0" -a -e "${retrieved}" ] || exit ${ERR_NOINPUT}
+    # check if the file was retrieved
+    [ "$?" == "0" -a -e "${retrieved}" ] || exit ${ERR_NOINPUT}
   
-  # report activity
-  ciop-log "INFO" "Retrieved $( basename ${retrieved} ), moving on to smac operator"
+    # report activity
+    ciop-log "INFO" "Retrieved $( basename ${retrieved} ), moving on to smac operator"
 	
-  outputname="$( basename ${retrieved} )"
+    outputname="$( basename ${retrieved} )"
   
-  ${_CIOP_APPLICATION_PATH}/shared/bin/gpt.sh SmacOp \
-    -SsourceProduct=${retrieved} \
-    -f ${format} \
-    -t $OUTPUTDIR}/${outputname} \
-    -PaerosolType=${aerosolType} \
-    -PbandNames="${bandNames}" \
-    -PinvalidPixel=${invalidPixel} \
-    -PmaskExpression="${maskExpression}" \
-    -PsurfPress=${surfPress} \
-    -PtauAero550=${tauAero550} \
-    -PuH2o=${uH2o} \
-    -PuO3=${uO3} \
-    -PuseMerisADS=${useMerisADS} 
+    ${_CIOP_APPLICATION_PATH}/shared/bin/gpt.sh SmacOp \
+      -SsourceProduct=${retrieved} \
+      -f ${format} \
+      -t ${OUTPUTDIR}/${outputname} \
+      -PaerosolType=${aerosolType} \
+      -PbandNames="${bandNames}" \
+      -PinvalidPixel=${invalidPixel} \
+      -PmaskExpression="${maskExpression}" \
+      -PsurfPress=${surfPress} \
+      -PtauAero550=${tauAero550} \
+      -PuH2o=${uH2o} \
+      -PuO3=${uO3} \
+      -PuseMerisADS=${useMerisADS} 
   
-  res=$?
-  [ ${res} != 0 ] && exit ${ERR_BEAM}
-
-  run=${CIOP_WF_RUN_ID}
- 
-  [ "${evaluate}" == "true" ] && {
-    # invoke pixex
-    l2b="$( basename ${OUTPUTDIR}/${outputname} )"
-    prddate="${l2b:20:2}/${l2b:18:2}/${l2b:14:4}"
-    ciop-log "INFO" "Apply BEAM PixEx Operator to ${l2b}"
-    prd_orbit=$( echo ${l2b:49:5} | sed 's/^0*//' ) 
-
-    # apply PixEx BEAM operator
-    ${_CIOP_APPLICATION_PATH}/shared/bin/gpt.sh \
-  	-Pvariable=${outputname}.dim \
-  	-Pvariable_path=${OUTPUTDIR} \
-  	-Poutput_path=${OUTPUTDIR} \
-        -Pprefix=${run} \
-  	-Pcoordinates=${TMPDIR}/poi.csv \
-	-PwindowSize=${window} \
-	-PaggregatorStrategyType="${aggregation}" \
-	${_CIOP_APPLICATION_PATH}/pixex/libexec/PixEx.xml 1>&2 		
-  	
     res=$?
-    [ ${res} != 0 ] && exit ${ERR_BEAM_PIXEX} 
+    [ ${res} != 0 ] && exit ${ERR_BEAM}
+
+    run=${CIOP_WF_RUN_ID}
  
-    result="$( find ${OUTPUTDIR} -name "${run}*measurements.txt" )"
+    [ "${evaluate}" == "true" ] && {
+      # invoke pixex
+      l2b="$( basename ${OUTPUTDIR}/${outputname} )"
+      prddate="${l2b:20:2}/${l2b:18:2}/${l2b:14:4}"
+      ciop-log "INFO" "Apply BEAM PixEx Operator to ${l2b}"
+      prd_orbit=$( echo ${l2b:49:5} | sed 's/^0*//' ) 
+
+      # apply PixEx BEAM operator
+      ${_CIOP_APPLICATION_PATH}/shared/bin/gpt.sh \
+        -Pvariable=${outputname}.dim \
+        -Pvariable_path=${OUTPUTDIR} \
+        -Poutput_path=${OUTPUTDIR} \
+        -Pprefix=${run} \
+        -Pcoordinates=${TMPDIR}/poi.csv \
+        -PwindowSize=${window} \
+        -PaggregatorStrategyType="${aggregation}" \
+        ${_CIOP_APPLICATION_PATH}/pixex/libexec/PixEx.xml 1>&2 		
+  	
+      res=$?
+      [ ${res} != 0 ] && exit ${ERR_BEAM_PIXEX} 
+ 
+      result="$( find ${OUTPUTDIR} -name "${run}*measurements.txt" )"
      
-    skip_lines=$( cat ${result} | grep -n "ProdID" | cut -d ":" -f 1 )
+      skip_lines=$( cat ${result} | grep -n "ProdID" | cut -d ":" -f 1 )
 
-    cat "${result}" |  tail -n +${skip_lines} | tr "\t" "," | awk -f ${_CIOP_APPLICATION_PATH}/pixex/libexec/tidy.awk -v run=${run} -v date=${prddate} -v orbit=${prd_orbit} - > ${TMPDIR}/"${OUTPUTDIR}/${l2b}.txt"
+      cat "${result}" |  tail -n +${skip_lines} | tr "\t" "," | awk -f ${_CIOP_APPLICATION_PATH}/pixex/libexec/tidy.awk -v run=${run} -v date=${prddate} -v orbit=${prd_orbit} - > ${TMPDIR}/"${OUTPUTDIR}/${l2b}.txt"
 
-    ciop-log "INFO" "Publishing extracted pixel values"
-    ciop-publish -m "${OUTPUTDIR}/${l2b}.txt"
-    rm -f "${OUTPUTDIR}/${l2b}.txt"
+      ciop-log "INFO" "Publishing extracted pixel values"
+      ciop-publish -m "${OUTPUTDIR}/${l2b}.txt"
+      rm -f "${OUTPUTDIR}/${l2b}.txt"
+    }
+
+    [ "${publish_l2}" == "true" ] && {
+      tar -C ${OUTPUTDIR} -cvzf ${TMPDIR}/${outputname}.tgz ${outputname}.dim ${outputname}.data
+      ciop-log "INFO" "Publishing $outputname.tgz"
+      ciop-publish -m ${TMPDIR}/${outputname}.tgz
+      rm -fr ${OUTPUTDIR}/${outputname}.tgz
+    }
+    # cleanup
+    rm -fr ${retrieved} ${OUTPUTDIR}/${outputname}.d* 
+   
+    prd_counter=$(( ${prd_counter} + 1 )) 
   }
-
-  [ "${publish_l2}" == "true" ] && {
-    tar -C ${OUTPUTDIR} -cvzf ${TMPDIR}/${outputname}.tgz ${outputname}.dim ${outputname}.data
-    ciop-log "INFO" "Publishing $outputname.tgz"
-    ciop-publish -m ${TMPDIR}/${outputname}.tgz
-    rm -fr ${OUTPUTDIR}/${outputname}.tgz
-  }
-  # cleanup
-  rm -fr ${retrieved} ${OUTPUTDIR}/${outputname}.d* 
- 
-  prd_counter=$(( ${prd_counter} + 1 )) 
-
 done
 
 exit 0
