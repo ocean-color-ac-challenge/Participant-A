@@ -49,14 +49,15 @@ useMerisADS="$( ciop-getparam useMerisADS )"
 
 # Evaluation parameters
 # get the POIs
-echo "$( ciop-getparam poi | tr "," "\t" )" > $TMPDIR/poi.csv
+echo -e "Name\tLatitude\tLongitude" > $TMPDIR/poi.csv
+echo "$( ciop-getparam poi | tr ',' '\t' | tr ';' '\n' )" > $TMPDIR/poi.csv
 # get the window size
 window="$( ciop-getparam window )"
 # get the aggregation
 aggregation="$( ciop-getparam aggregation )"
 
 # set the processing flags
-evaluate="$( ciop-getparam evaluate )"
+pixex="$( ciop-getparam pixex )"
 publish_l2="$( ciop-getparam publishL2 )"
 
 prd_counter=1
@@ -102,7 +103,7 @@ do
 
     run=${CIOP_WF_RUN_ID}
  
-    [ "${evaluate}" == "true" ] && {
+    [ "${pixex}" == "true" ] && {
       # invoke pixex
       l2b="$( basename ${OUTPUTDIR}/${outputname} )"
       prddate="${l2b:20:2}/${l2b:18:2}/${l2b:14:4}"
