@@ -125,20 +125,31 @@ do
  
       result="$( find ${OUTPUTDIR} -name "${run}*measurements.txt" )"
      
-      skip_lines=$( cat ${result} | grep -n "ProdID" | cut -d ":" -f 1 )
+      [ -n "${result}" ] && {
+      	skip_lines=$( cat ${result} | grep -n "ProdID" | cut -d ":" -f 1 )
 
-      cat "${result}" |  tail -n +${skip_lines} | tr "\t" "," | awk -f ${_CIOP_APPLICATION_PATH}/pixex/libexec/tidy.awk -v run=${run} -v date=${prddate} -v orbit=${prd_orbit} - > ${TMPDIR}/"${OUTPUTDIR}/${l2b}.txt"
+      	cat "${result}" |  tail -n +${skip_lines} | tr "\t" "," | awk -f ${_CIOP_APPLICATION_PATH}/pixex/libexec/tidy.awk -v run=${run} -v date=${prddate} -v orbit=${prd_orbit} - > ${TMPDIR}/"${OUTPUTDIR}/${l2b}.txt"
 
-      ciop-log "INFO" "Publishing extracted pixel values"
-      ciop-publish -m "${OUTPUTDIR}/${l2b}.txt"
-      rm -f "${OUTPUTDIR}/${l2b}.txt"
+      	ciop-log "INFO" "Publishing extracted pixel values"
+      	ciop-publish -m "${OUTPUTDIR}/${l2b}.txt"
+      	rm -f "${OUTPUTDIR}/${l2b}.txt"
+      }
     }
 
     [ "${publish_l2}" == "true" ] && {
+      # create RGB quicklook
+      ${_CIOP_APPLICATION_PATH}/shared/bin/pconvert.sh \
+          -f png \
+          -p ${_CIOP_APPLICATION_PATH}/smacop/etc/profile.rgb \
+          -o ${OUTPUTDIR} \
+          ${OUTPUTDIR}/${outputname}.dim
+
       tar -C ${OUTPUTDIR} -cvzf ${TMPDIR}/${outputname}.tgz ${outputname}.dim ${outputname}.data
       ciop-log "INFO" "Publishing $outputname.tgz"
       ciop-publish -m ${TMPDIR}/${outputname}.tgz
+      ciop-publish -m ${OUTPUTDIR}/${outputname}.png
       rm -fr ${OUTPUTDIR}/${outputname}.tgz
+      rm -f ${OUTPUTDIR}/${outputname}.png
     }
     # cleanup
     rm -fr ${retrieved} ${OUTPUTDIR}/${outputname}.d* 
