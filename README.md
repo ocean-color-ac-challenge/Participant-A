@@ -1,11 +1,16 @@
-beam-meris-ac
+Participant-A
 =============
-
 MERIS atmospheric correction effects using BEAM - using SmacOp
 
-### Installation 
+### Quick link
 
-Log on the developer sandbox and run these commands in a shell:
+* [Installation](#installation)
+* [Submitting the workflow](#submit)
+* [Test the application](#test)
+
+### <a name="installation"></a>Installation
+
+Log on the Developer Cloud Sandbox and run these commands in a shell:
 
 * Install **Java 7**
 
@@ -38,19 +43,19 @@ Select java 1.7 out of the menu options by typing the correct number (here it's 
 
 ```bash
 cd
-git clone git@github.com:ocean-color-ac-challenge/beam-meris-ac.git
+git clone git@github.com:ocean-color-ac-challenge/Participant-A.git
 cd beam-meris-ac
 mvn install
 ```
 
-### Submitting the workflow
+### <a name="submit"></a>Submitting the workflow
 
 * Via the Sandbox shell 
 
 Run this command in a shell:
 
 ```bash
-ciop-simwf
+ciop-run
 ```
 
 * Via the Web Processing Service dashboard tab
@@ -59,8 +64,43 @@ Use your browser to go to the Sandbox dashboard tab at the address http://<sandb
 
 Click on the _Invoke_ tab
 
-Below the "Process List" click on _BEAM Atmos Correction_
+Below the "Process List" click on _Participant A_
 
 Fill the parameters and click submit. 
 
+### <a name="test"></a>Test the application
 
+##### Test Participant-A-01
+
+* Test Procedure
+
+Invoke the application via the Dashboard with the parameters listed in the test inputs specification
+
+* Inputs specification 
+
+| Parameter   | Value                                                                                                   |
+|-------------|---------------------------------------------------------------------------------------------------------|
+| source      | https://challenges.esa.int/eceo/datapackage/FRSPAR/description?key=495f181f-47d3-4668-b717-d36d4a560837 |
+| startdate   | 2002-03-01                                                                                              |
+| enddate     | 2012-10-01                                                                                              |
+| aerosolType | CONTINENTAL                                                                                             |
+| tauAero550  | 0.1                                                                                                     |
+| useMerisADS | true                                                                                                    |
+| poi         |                                                                                                         |
+| window      |                                                                                                         |
+| aggregation |                                                                                                         |
+| publishL2   | true                                                                                                    |
+| evaluate    |                                                                                                         |
+
+* Outputs specification
+
+| Output                                                             |
+|--------------------------------------------------------------------|
+| MER_FRS_1PPEPA20040711_020449_000002422028_00275_12353_1787.N1.png |
+| MER_FRS_1PPEPA20040711_020449_000002422028_00275_12353_1787.N1.tgz |
+| MER_FRS_1PPEPA20040717_021529_000002642028_00361_12439_1968.N1.png |
+| MER_FRS_1PPEPA20040717_021529_000002642028_00361_12439_1968.N1.tgz |
+
+* Test pass/fail criteria
+
+All products listed in test outputs specification are generated
