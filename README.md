@@ -78,28 +78,34 @@ Invoke the application via the Dashboard with the parameters listed in the test 
 
 * Inputs specification 
 
-| Parameter   | Value                                                                                                   |
+| Parameter   | Value |
 |-------------|---------------------------------------------------------------------------------------------------------|
-| source      | https://challenges.esa.int/eceo/datapackage/FRSPAR/description?key=495f181f-47d3-4668-b717-d36d4a560837 |
-| startdate   | 2002-03-01                                                                                              |
-| enddate     | 2012-10-01                                                                                              |
-| aerosolType | CONTINENTAL                                                                                             |
-| tauAero550  | 0.1                                                                                                     |
-| useMerisADS | true                                                                                                    |
-| poi         |                                                                                                         |
-| window      |                                                                                                         |
-| aggregation |                                                                                                         |
-| publishL2   | true                                                                                                    |
-| evaluate    |                                                                                                         |
+| Catalogue      | https://challenges.esa.int/eceo/datapackage/RRPAR/description?key=9d79148d-3e17-414b-9983-e4cef9e88ec6 |
+| Start date   | 2002-03-01T00:00:00Z |
+| End date     | 2012-05-09T23:59:59Z |
+| aerosolType | CONTINENTAL |
+| Aerosol Optical Depth  | 0.1 |
+| Use ECMWF data in the MERIS ADS | true |
+| List of POI for reflectance extraction |BOUS,43.367,7.9\|AAOT,45.314,12.508\|MOBY,20.828,-157.193 |
+| Flag to trigger the publishing of Level 2 products generated | true |
+| Flag to extract POI reflectances | false |
 
 * Outputs specification
 
-| Output                                                             |
-|--------------------------------------------------------------------|
-| MER_FRS_1PPEPA20040711_020449_000002422028_00275_12353_1787.N1.png |
-| MER_FRS_1PPEPA20040711_020449_000002422028_00275_12353_1787.N1.tgz |
-| MER_FRS_1PPEPA20040717_021529_000002642028_00361_12439_1968.N1.png |
-| MER_FRS_1PPEPA20040717_021529_000002642028_00361_12439_1968.N1.tgz |
+| Output                                                             | Size |
+|--------------------------------------------------------------------|------|
+MER_RR__1PNACR20060730_093546_000021432049_00480_23079_0000.N1.png|10.01 MB|
+MER_RR__1PNACR20060730_093546_000021432049_00480_23079_0000.N1.tgz|193.73 MB|
+MER_RR__1PRACR20030306_201313_000026082014_00243_05307_0000.N1.png|21.35 MB|
+MER_RR__1PRACR20030306_201313_000026082014_00243_05307_0000.N1.tgz|367.81 MB|
+MER_RR__1PRACR20040903_201756_000026282030_00057_13137_0000.N1.png|21.87 MB|
+MER_RR__1PRACR20040903_201756_000026282030_00057_13137_0000.N1.tgz|367.88 MB|
+MER_RR__1PRACR20050504_093419_000026382037_00022_16609_0000.N1.png|14.73 MB|
+MER_RR__1PRACR20050504_093419_000026382037_00022_16609_0000.N1.tgz|265.6 MB|
+MER_RR__1PRACR20070920_092716_000026302061_00437_29048_0000.N1.png|14.86 MB|
+MER_RR__1PRACR20070920_092716_000026302061_00437_29048_0000.N1.tgz|266 MB|
+MER_RR__1PRACR20080816_092020_000026302071_00165_33786_0000.N1.png|16.58 MB|
+MER_RR__1PRACR20080816_092020_000026302071_00165_33786_0000.N1.tgz|267.37 MB|
 
 * Test pass/fail criteria
 
