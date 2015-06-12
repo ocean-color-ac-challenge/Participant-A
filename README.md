@@ -110,3 +110,39 @@ MER_RR__1PRACR20080816_092020_000026302071_00165_33786_0000.N1.tgz|267.37 MB|
 * Test pass/fail criteria
 
 All products listed in test outputs specification are generated
+
+##### Test Participant-A-02
+
+* Test Procedure
+
+Invoke the application via the Dashboard with the parameters listed in the test inputs specification
+
+* Inputs specification 
+
+| Parameter   | Value |
+|-------------|---------------------------------------------------------------------------------------------------------|
+| Catalogue      | https://challenges.esa.int/eceo/datapackage/RRPAR/description?key=9d79148d-3e17-414b-9983-e4cef9e88ec6 |
+| Start date   | 2002-03-01T00:00:00Z |
+| End date     | 2012-05-09T23:59:59Z |
+| aerosolType | CONTINENTAL |
+| Aerosol Optical Depth  | 0.1 |
+| Use ECMWF data in the MERIS ADS | true |
+| List of POI for reflectance extraction |BOUS,43.367,7.9\|AAOT,45.314,12.508\|MOBY,20.828,-157.193 |
+| Flag to trigger the publishing of Level 2 products generated | false |
+| Flag to extract POI reflectances | true |
+
+* Outputs specification
+
+| Output                                                             | Size |
+|--------------------------------------------------------------------|------|
+MER_RR__1PNACR20060730_093546_000021432049_00480_23079_0000.N1.txt|1.08 KB|
+MER_RR__1PRACR20030306_201313_000026082014_00243_05307_0000.N1.txt|0.78 KB|
+MER_RR__1PRACR20040903_201756_000026282030_00057_13137_0000.N1.txt|0.78 KB|
+MER_RR__1PRACR20050504_093419_000026382037_00022_16609_0000.N1.txt|1.06 KB|
+MER_RR__1PRACR20070920_092716_000026302061_00437_29048_0000.N1.txt|1.06 KB|
+MER_RR__1PRACR20080816_092020_000026302071_00165_33786_0000.N1.txt|1.05 KB|
+
+* Test pass/fail criteria
+
+All products listed in test outputs specification are generated
+
