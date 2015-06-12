@@ -121,6 +121,39 @@ Invoke the application via the Dashboard with the parameters listed in the test 
 
 | Parameter   | Value |
 |-------------|---------------------------------------------------------------------------------------------------------|
+| Catalogue      | https://challenges.esa.int/eceo/datapackage/FRSPAR/description?key=9d79148d-3e17-414b-9983-e4cef9e88ec6 |
+| Start date   | 2002-03-01T00:00:00Z |
+| End date     | 2012-05-09T23:59:59Z |
+| aerosolType | CONTINENTAL |
+| Aerosol Optical Depth  | 0.1 |
+| Use ECMWF data in the MERIS ADS | true |
+| List of POI for reflectance extraction |BOUS,43.367,7.9\|AAOT,45.314,12.508\|MOBY,20.828,-157.193 |
+| Flag to trigger the publishing of Level 2 products generated | true |
+| Flag to extract POI reflectances | false |
+
+* Outputs specification
+
+| Output                                                             | Size |
+|--------------------------------------------------------------------|------|
+MER_FRS_1PPEPA20040711_020449_000002422028_00275_12353_1787.N1.png|21.16 MB|
+MER_FRS_1PPEPA20040711_020449_000002422028_00275_12353_1787.N1.tgz|466.86 MB|
+MER_FRS_1PPEPA20040717_021529_000002642028_00361_12439_1968.N1.png|18.27 MB|
+MER_FRS_1PPEPA20040717_021529_000002642028_00361_12439_1968.N1.tgz|371.85 MB|
+
+* Test pass/fail criteria
+
+All products listed in test outputs specification are generated
+
+##### Test Participant-A-03
+
+* Test Procedure
+
+Invoke the application via the Dashboard with the parameters listed in the test inputs specification
+
+* Inputs specification 
+
+| Parameter   | Value |
+|-------------|---------------------------------------------------------------------------------------------------------|
 | Catalogue      | https://challenges.esa.int/eceo/datapackage/RRPAR/description?key=9d79148d-3e17-414b-9983-e4cef9e88ec6 |
 | Start date   | 2002-03-01T00:00:00Z |
 | End date     | 2012-05-09T23:59:59Z |
@@ -146,3 +179,32 @@ MER_RR__1PRACR20080816_092020_000026302071_00165_33786_0000.N1.txt|1.05 KB|
 
 All products listed in test outputs specification are generated
 
+
+##### Test Participant-A-04
+
+* Test Procedure
+
+Invoke the application via the Dashboard with the parameters listed in the test inputs specification
+
+* Inputs specification 
+
+| Parameter   | Value |
+|-------------|---------------------------------------------------------------------------------------------------------|
+| Catalogue      | https://challenges.esa.int/eceo/datapackage/RFRSAR/description?key=9d79148d-3e17-414b-9983-e4cef9e88ec6 |
+| Start date   | 2002-03-01T00:00:00Z |
+| End date     | 2012-05-09T23:59:59Z |
+| aerosolType | CONTINENTAL |
+| Aerosol Optical Depth  | 0.1 |
+| Use ECMWF data in the MERIS ADS | true |
+| List of POI for reflectance extraction |BOUS,43.367,7.9\|AAOT,45.314,12.508\|MOBY,20.828,-157.193 |
+| Flag to trigger the publishing of Level 2 products generated | false |
+| Flag to extract POI reflectances | true |
+
+* Outputs specification
+
+| Output                                                             | Size |
+|--------------------------------------------------------------------|------|
+
+* Test pass/fail criteria
+
+All products listed in test outputs specification are generated
