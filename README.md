@@ -196,7 +196,7 @@ Invoke the application via the Dashboard with the parameters listed in the test 
 | aerosolType | CONTINENTAL |
 | Aerosol Optical Depth  | 0.1 |
 | Use ECMWF data in the MERIS ADS | true |
-| List of POI for reflectance extraction |BOUS,43.367,7.9\|AAOT,45.314,12.508\|MOBY,20.828,-157.193 |
+| List of POI for reflectance extraction |CHINA,27,122|
 | Flag to trigger the publishing of Level 2 products generated | false |
 | Flag to extract POI reflectances | true |
 
@@ -204,6 +204,8 @@ Invoke the application via the Dashboard with the parameters listed in the test 
 
 | Output                                                             | Size |
 |--------------------------------------------------------------------|------|
+MER_FRS_1PPEPA20040711_020449_000002422028_00275_12353_1787.N1.txt|0.77 KB|     
+MER_FRS_1PPEPA20040717_021529_000002642028_00361_12439_1968.N1.txt|0.77 KB|
 
 * Test pass/fail criteria
 
