@@ -119,7 +119,7 @@ do
         -Pcoordinates=${TMPDIR}/poi.csv \
         -PwindowSize=${window} \
         -PaggregatorStrategyType="${aggregation}" \
-        ${_CIOP_APPLICATION_PATH}/pixex/libexec/PixEx.xml 1>&2 		
+        ${_CIOP_APPLICATION_PATH}/pixex/libexec/PixEx.xml 1>&2
   	
       res=$?
       [ ${res} != 0 ] && exit ${ERR_BEAM_PIXEX} 
