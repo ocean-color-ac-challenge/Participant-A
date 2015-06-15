@@ -39,13 +39,20 @@ Enter to keep the current selection[+], or type selection number:
 
 Select java 1.7 out of the menu options by typing the correct number (here it's *3*).
 
-* Install this application
+* Install the application from github
 
 ```bash
 cd
 git clone git@github.com:ocean-color-ac-challenge/Participant-A.git
-cd beam-meris-ac
+cd Participant-A
 mvn install
+```
+
+* Install the application from rpm
+
+```bash
+curl -L -O https://github.com/ocean-color-ac-challenge/Participant-A/releases/download/v0.35/Participant-A-0.35-ciop.noarch.rpm
+sudo yum -y install Participant-A-0.35-ciop.noarch.rpm
 ```
 
 ### <a name="submit"></a>Submitting the workflow
