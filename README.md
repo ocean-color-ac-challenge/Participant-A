@@ -190,7 +190,7 @@ Invoke the application via the Dashboard with the parameters listed in the test 
 
 | Parameter   | Value |
 |-------------|---------------------------------------------------------------------------------------------------------|
-| Catalogue      | https://challenges.esa.int/eceo/datapackage/RFRSAR/description?key=495f181f-47d3-4668-b717-d36d4a560837 |
+| Catalogue      | https://challenges.esa.int/eceo/datapackage/FRSPAR/description?key=495f181f-47d3-4668-b717-d36d4a560837 |
 | Start date   | 2002-03-01T00:00:00Z |
 | End date     | 2012-05-09T23:59:59Z |
 | aerosolType | CONTINENTAL |
