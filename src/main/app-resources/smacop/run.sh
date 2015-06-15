@@ -50,7 +50,7 @@ useMerisADS="$( ciop-getparam useMerisADS )"
 # Evaluation parameters
 # get the POIs
 echo -e "Name\tLatitude\tLongitude" > $TMPDIR/poi.csv
-echo "$( ciop-getparam poi | tr ',' '\t' | tr ';' '\n' )" > $TMPDIR/poi.csv
+echo "$( ciop-getparam poi | tr ',' '\t' | tr '|' '\n' )" >> $TMPDIR/poi.csv
 # get the window size
 window="$( ciop-getparam window )"
 # get the aggregation
@@ -129,7 +129,7 @@ do
       [ -n "${result}" ] && {
       	skip_lines=$( cat ${result} | grep -n "ProdID" | cut -d ":" -f 1 )
 
-      	cat "${result}" |  tail -n +${skip_lines} | tr "\t" "," | awk -f ${_CIOP_APPLICATION_PATH}/pixex/libexec/tidy.awk -v run=${run} -v date=${prddate} -v orbit=${prd_orbit} - > ${TMPDIR}/"${OUTPUTDIR}/${l2b}.txt"
+      	cat "${result}" |  tail -n +${skip_lines} | tr "\t" "," | awk -f ${_CIOP_APPLICATION_PATH}/pixex/libexec/tidy.awk -v run=${run} -v date=${prddate} -v orbit=${prd_orbit} - > "${OUTPUTDIR}/${l2b}.txt"
 
       	ciop-log "INFO" "Publishing extracted pixel values"
       	ciop-publish -m "${OUTPUTDIR}/${l2b}.txt"
