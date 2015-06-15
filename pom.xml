@@ -341,6 +341,11 @@ xml.properties() {
 					<provides>
 						<provide>${project.artifactId}</provide>
 					</provides>
+
+					<requires>
+						<require>java-1.7.0-openjdk</require>
+					</requires>
+
 					<needarch>noarch</needarch>
 				</configuration>
 			</plugin>
