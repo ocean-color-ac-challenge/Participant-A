@@ -203,7 +203,7 @@ Invoke the application via the Dashboard with the parameters listed in the test 
 | aerosolType | CONTINENTAL |
 | Aerosol Optical Depth  | 0.1 |
 | Use ECMWF data in the MERIS ADS | true |
-| List of POI for reflectance extraction |CHINA,27,122|
+| List of POI for reflectance extraction |CHINA,27,122\|CHINA2,30,124\|CHINA3,22,126|
 | Flag to trigger the publishing of Level 2 products generated | false |
 | Flag to extract POI reflectances | true |
 
