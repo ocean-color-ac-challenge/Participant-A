@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.terradue.ciop.app</groupId>
-	<artifactId>Participant-A</artifactId>
+	<artifactId>participant-a</artifactId>
 	<packaging>rpm</packaging>
 	<name>${project.artifactId}</name>
 	<description>BEAM Atmospheric Correction Processing</description>
