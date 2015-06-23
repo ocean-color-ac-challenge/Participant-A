@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.terradue.ciop.app</groupId>
-	<artifactId>Participant-A</artifactId>
+	<artifactId>participant-a</artifactId>
 	<packaging>rpm</packaging>
 	<name>${project.artifactId}</name>
 	<description>BEAM Atmospheric Correction Processing</description>
@@ -148,8 +148,7 @@ def writer = new FileWriter(new File("/application/properties.xml"))
 def xml = new MarkupBuilder(writer)
 xml.mkp.xmlDeclaration(version: "1.0", encoding: "utf-8")
 xml.properties() {
-	application_reference(version:pom.version, pom.artifactId)
-	user_reference(env['USER'])
+	github_repository(version:pom.version, pom.artifactId)
 }
 		</source>
             </configuration>
