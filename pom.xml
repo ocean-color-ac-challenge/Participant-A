@@ -29,30 +29,30 @@
 			<version>5.0</version>
 		</dependency>
 		<dependency>
-                        <groupId>org.esa.beam</groupId>
-                        <artifactId>beam-geotiff</artifactId>
-                        <version>5.0</version>
+			<groupId>org.esa.beam</groupId>
+			<artifactId>beam-geotiff</artifactId>
+			<version>5.0</version>
 		</dependency>
 		<dependency>
-                        <groupId>org.esa.beam</groupId>
-                        <artifactId>beam-binning</artifactId>
-                        <version>5.0</version>
-                </dependency>
-                <dependency>
-                        <groupId>org.esa.beam</groupId>
-                        <artifactId>beam-pixel-extraction</artifactId>
-                        <version>5.0</version>
-                </dependency>
+			<groupId>org.esa.beam</groupId>
+			<artifactId>beam-binning</artifactId>
+			<version>5.0</version>
+		</dependency>
 		<dependency>
-                        <groupId>org.esa.beam</groupId>
-                        <artifactId>beam-pconvert</artifactId>
-                        <version>5.0</version>
-                </dependency>
-                <dependency>
-                        <groupId>org.esa.beam</groupId>
-                        <artifactId>beam-meris-smac</artifactId>
-                        <version>5.0</version>
-                </dependency>
+			<groupId>org.esa.beam</groupId>
+			<artifactId>beam-pixel-extraction</artifactId>
+			<version>5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.beam</groupId>
+			<artifactId>beam-pconvert</artifactId>
+			<version>5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.beam</groupId>
+			<artifactId>beam-meris-smac</artifactId>
+			<version>5.0</version>
+		</dependency>
 		<dependency>
 			<groupId>ncsa.hdf</groupId>
 			<artifactId>lib-hdf</artifactId>
@@ -135,13 +135,13 @@
     <groupId>org.codehaus.gmaven</groupId>
     <artifactId>gmaven-plugin</artifactId>
     <executions>
-        <execution>
-            <phase>generate-resources</phase>
-            <goals>
-                <goal>execute</goal>
-            </goals>
-            <configuration>
-                <source>
+	<execution>
+	    <phase>generate-resources</phase>
+	    <goals>
+		<goal>execute</goal>
+	    </goals>
+	    <configuration>
+		<source>
 import groovy.xml.MarkupBuilder
 def env = System.getenv()
 def writer = new FileWriter(new File("/application/properties.xml"))
@@ -151,8 +151,8 @@ xml.properties() {
 	github_repository(version:pom.version, pom.artifactId)
 }
 		</source>
-            </configuration>
-        </execution>
+	    </configuration>
+	</execution>
     </executions>
 </plugin>
 
@@ -346,6 +346,10 @@ xml.properties() {
 					</requires>
 
 					<needarch>noarch</needarch>
+
+					<postinstallScriptlet>
+						<script><![CDATA[ echo -e "<?xml version='1.0' encoding='utf-8'?>\n<properties>\n\t<github_repository version='\${project.version}'>\${project.artifactId}</github_repository>\n</properties>" > /application/properties.xml ]]></script>
+					</postinstallScriptlet>
 				</configuration>
 			</plugin>
 
